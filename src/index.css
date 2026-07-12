@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   SIMMAM Vendor Portal — Global Styles
+   Premium dark aesthetic matching ssesimmam.com
+   ───────────────────────────────────────────── */
+
+/* ─── Custom Properties ─────────────────────── */
+:root {
+  --scrollbar-thumb: rgba(212, 175, 55, 0.3);
+  --scrollbar-track: rgba(17, 17, 17, 0.5);
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
+
+/* ─── Base Reset ────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: #080808;
+  color: #FFFFFF;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ─── Custom Scrollbar ──────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* ─── Typography ────────────────────────────── */
+.font-display {
+  font-family: 'Oswald', sans-serif;
+}
+.font-body {
+  font-family: 'Inter', sans-serif;
+}
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── HTML5 QR Code overrides ───────────────── */
+/* Hide the default html5-qrcode header and border */
+#qr-scanner-container > div > div:first-child {
+  display: none !important;
+}
+#qr-scanner-container video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 0;
+}
+#qr-scanner-container {
+  background: #000 !important;
+  border: none !important;
+}
+#qr-scanner-container img[alt="Info icon"] {
+  display: none !important;
+}
+
+/* ─── Print Styles ──────────────────────────── */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ─── Focus visible ──────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.6);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ──────────────────────────────── */
+::selection {
+  background: rgba(212, 175, 55, 0.2);
+  color: #FFFFFF;
+}
+
+/* ─── Reduced motion ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
