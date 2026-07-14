@@ -5,6 +5,7 @@ const { createClient } = require('@supabase/supabase-js')
 const vendorRoutes = require('./routes/vendors.routes')
 const authRoutes = require('./routes/auth.routes')
 const scanRoutes = require('./routes/scan.routes')
+const path = require('path')
 
 const app = express()
 
@@ -39,6 +40,13 @@ app.use('/api/scan', scanRoutes)
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({ error: err.message || 'Internal Server Error' })
+})
+
+// Serve frontend static files in production
+app.use(express.static(path.join(__dirname, '../dist')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'))
 })
 
 const PORT = process.env.PORT || 5000

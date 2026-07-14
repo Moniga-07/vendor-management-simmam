@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Configure API client to point to the Express backend dynamically so mobile testing works
-const backendUrl = import.meta.env.VITE_API_URL || `${window.location.protocol}//${window.location.hostname}:5000/api`
+const backendUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : `${window.location.protocol}//${window.location.hostname}:5000/api`)
 
 export const api = axios.create({
   baseURL: backendUrl,
