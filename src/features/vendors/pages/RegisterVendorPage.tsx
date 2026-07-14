@@ -27,11 +27,17 @@ export default function RegisterVendorPage() {
     vehicle_number: '',
   })
   
-  // Webcam state
+  // Live Photo Webcam state
   const webcamRef = useRef<Webcam>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
   const [isCameraActive, setIsCameraActive] = useState(false)
   const [cameraFacingMode, setCameraFacingMode] = useState<'user' | 'environment'>('user')
+
+  // ID Proof Webcam state
+  const idWebcamRef = useRef<Webcam>(null)
+  const [idProofImage, setIdProofImage] = useState<string | null>(null)
+  const [isIdCameraActive, setIsIdCameraActive] = useState(false)
+  const [idCameraFacingMode, setIdCameraFacingMode] = useState<'environment' | 'user'>('environment')
 
   const handleCapture = useCallback(() => {
     if (webcamRef.current) {
@@ -41,11 +47,24 @@ export default function RegisterVendorPage() {
     }
   }, [webcamRef])
 
+  const handleIdCapture = useCallback(() => {
+    if (idWebcamRef.current) {
+      const imageSrc = idWebcamRef.current.getScreenshot()
+      setIdProofImage(imageSrc)
+      setIsIdCameraActive(false)
+    }
+  }, [idWebcamRef])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!capturedImage) {
-      error('Missing Photo', 'Please capture a photo.')
+      error('Missing Photo', 'Please capture a live photo of the vendor.')
+      return
+    }
+    
+    if (!idProofImage) {
+      error('Missing ID Proof', 'Please capture a photo of the Aadhar card or ID proof.')
       return
     }
 
@@ -59,6 +78,7 @@ export default function RegisterVendorPage() {
       data.append('vehicle_number', formData.vehicle_number)
       
       data.append('photoDataUrl', capturedImage) // Backend will decode this base64
+      data.append('idProofDataUrl', idProofImage)
 
       const newVendor = await vendorService.create(data)
       
@@ -244,6 +264,75 @@ export default function RegisterVendorPage() {
                       <div className="absolute bottom-4 left-0 w-full flex justify-center">
                         <Button variant="secondary" type="button" onClick={() => { setCapturedImage(null); setIsCameraActive(true); }}>
                           Retake Photo
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <h3 className="text-lg font-display font-semibold text-simmam-gold border-b border-simmam-gold-border/50 pb-2 mt-8">
+                  ID Proof Document
+                </h3>
+
+                <div className="aspect-square w-full max-w-sm mx-auto bg-simmam-bg rounded-xl border-2 border-dashed border-simmam-gold-border overflow-hidden relative flex items-center justify-center mt-4">
+                  
+                  {!isIdCameraActive && !idProofImage && (
+                    <div className="text-center p-6 flex flex-col items-center">
+                      <div className="w-16 h-16 rounded-full bg-simmam-gold/10 flex items-center justify-center mb-4">
+                        <Camera className="text-simmam-gold w-8 h-8" />
+                      </div>
+                      <p className="text-sm text-simmam-text-secondary mb-4">Aadhar card or any valid ID proof</p>
+                      <Button variant="outline" type="button" onClick={() => setIsIdCameraActive(true)}>
+                        Start Camera
+                      </Button>
+                    </div>
+                  )}
+
+                  {isIdCameraActive && (
+                    <>
+                      <Webcam
+                        audio={false}
+                        ref={idWebcamRef}
+                        screenshotFormat="image/jpeg"
+                        videoConstraints={{ facingMode: idCameraFacingMode }}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-2 right-2">
+                        <button 
+                          type="button" 
+                          onClick={() => setIdCameraFacingMode(p => p === 'user' ? 'environment' : 'user')}
+                          className="p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors shadow-lg backdrop-blur-sm"
+                          title="Flip Camera"
+                        >
+                          <FlipHorizontal size={18} />
+                        </button>
+                      </div>
+                      <div className="absolute bottom-4 left-0 w-full flex justify-center gap-3">
+                        <Button variant="primary" type="button" onClick={handleIdCapture}>
+                          Capture ID
+                        </Button>
+                        <Button variant="ghost" type="button" className="bg-black/50 text-white hover:bg-black/70" onClick={() => setIsIdCameraActive(false)}>
+                          Cancel
+                        </Button>
+                      </div>
+                    </>
+                  )}
+
+                  {idProofImage && !isIdCameraActive && (
+                    <>
+                      <img src={idProofImage} alt="ID Proof" className="w-full h-full object-cover" />
+                      <div className="absolute top-2 right-2">
+                        <button 
+                          type="button" 
+                          onClick={() => setIdProofImage(null)}
+                          className="p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                      <div className="absolute bottom-4 left-0 w-full flex justify-center">
+                        <Button variant="secondary" type="button" onClick={() => { setIdProofImage(null); setIsIdCameraActive(true); }}>
+                          Retake ID
                         </Button>
                       </div>
                     </>

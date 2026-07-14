@@ -84,7 +84,7 @@ router.post(
   ]), 
   async (req, res) => {
   try {
-    const { name, mobile, company, stall_number, vehicle_number, photoDataUrl } = req.body
+    const { name, mobile, company, stall_number, vehicle_number, photoDataUrl, idProofDataUrl } = req.body
     
     // Generate Vendor ID (e.g., VEN0001)
     const { count, error: countError } = await req.supabase
@@ -119,6 +119,23 @@ router.post(
       }
     }
 
+    let idProofUrl = ''
+    if (idProofDataUrl) {
+      const matches = idProofDataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+      if (matches && matches.length === 3) {
+        const buffer = Buffer.from(matches[2], 'base64')
+        const fileName = `idproof_${Date.now()}.jpg`
+        const { error } = await req.supabase.storage
+          .from('vendor-photos')
+          .upload(fileName, buffer, { contentType: 'image/jpeg', upsert: false })
+          
+        if (!error) {
+          const { data } = req.supabase.storage.from('vendor-photos').getPublicUrl(fileName)
+          idProofUrl = data.publicUrl
+        }
+      }
+    }
+
     // Insert into DB
     const { data, error } = await req.supabase
       .from('vendors')
@@ -130,6 +147,7 @@ router.post(
         stall_number,
         vehicle_number,
         photo: photoUrl,
+        id_proof_url: idProofUrl,
         status: 'OUTSIDE', // Default state
         entry_count: 0
       })

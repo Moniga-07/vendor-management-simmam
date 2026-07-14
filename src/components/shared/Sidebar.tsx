@@ -83,7 +83,11 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             key={item.to}
             to={item.to}
             end={item.to === '/'}
-            onClick={onClose}
+            onClick={(e) => {
+              if (onClose) {
+                setTimeout(() => onClose(), 10)
+              }
+            }}
             className={({ isActive }) =>
               cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-simmam',

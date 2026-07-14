@@ -23,6 +23,7 @@ export interface Vendor {
   stall_number: string
   vehicle_number: string
   photo: string              // URL
+  id_proof_url?: string      // URL
   status: VendorStatus
   entry_count: number
   created_at: string
