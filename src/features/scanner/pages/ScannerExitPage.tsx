@@ -209,11 +209,25 @@ export default function ScannerExitPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="text-center"
             >
-              <div className="w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden border-2 border-simmam-gold shadow-gold-sm bg-simmam-bg flex items-center justify-center">
-                {scannedVendor.photo ? (
-                  <img src={scannedVendor.photo} alt={scannedVendor.name} className="w-full h-full object-cover" />
-                ) : (
-                  <User size={40} className="text-simmam-text-muted" />
+              <div className="flex justify-center gap-6 mb-6">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-simmam-gold shadow-gold-sm bg-simmam-bg flex items-center justify-center">
+                    {scannedVendor.photo ? (
+                      <img src={scannedVendor.photo} alt={scannedVendor.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <User size={40} className="text-simmam-text-muted" />
+                    )}
+                  </div>
+                  <span className="text-xs text-simmam-text-muted uppercase font-medium tracking-wider">Profile</span>
+                </div>
+
+                {scannedVendor.id_proof_url && (
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-32 h-24 rounded-2xl overflow-hidden border-2 border-simmam-gold shadow-gold-sm bg-simmam-bg flex items-center justify-center">
+                      <img src={scannedVendor.id_proof_url} alt="ID Proof" className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-xs text-simmam-text-muted uppercase font-medium tracking-wider">ID Proof</span>
+                  </div>
                 )}
               </div>
               
