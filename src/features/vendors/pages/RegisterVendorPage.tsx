@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Camera, Upload, X, QrCode, Download, Printer, CheckCircle2 } from 'lucide-react'
+import { Camera, Upload, X, QrCode, Download, Printer, CheckCircle2, FlipHorizontal } from 'lucide-react'
 import Webcam from 'react-webcam'
 import { ROUTES } from '@/constants/routes'
 import { vendorService } from '@/services/vendorService'
@@ -31,6 +31,7 @@ export default function RegisterVendorPage() {
   const webcamRef = useRef<Webcam>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
   const [isCameraActive, setIsCameraActive] = useState(false)
+  const [cameraFacingMode, setCameraFacingMode] = useState<'user' | 'environment'>('user')
 
   const handleCapture = useCallback(() => {
     if (webcamRef.current) {
@@ -204,9 +205,19 @@ export default function RegisterVendorPage() {
                         audio={false}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        videoConstraints={{ facingMode: 'user' }}
+                        videoConstraints={{ facingMode: cameraFacingMode }}
                         className="w-full h-full object-cover"
                       />
+                      <div className="absolute top-2 right-2">
+                        <button 
+                          type="button" 
+                          onClick={() => setCameraFacingMode(p => p === 'user' ? 'environment' : 'user')}
+                          className="p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors shadow-lg backdrop-blur-sm"
+                          title="Flip Camera"
+                        >
+                          <FlipHorizontal size={18} />
+                        </button>
+                      </div>
                       <div className="absolute bottom-4 left-0 w-full flex justify-center gap-3">
                         <Button variant="primary" type="button" onClick={handleCapture}>
                           Capture Photo

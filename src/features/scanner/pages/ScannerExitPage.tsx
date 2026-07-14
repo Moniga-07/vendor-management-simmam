@@ -32,12 +32,12 @@ export default function ScannerExitPage() {
     }
   }, [])
 
-  const startScanner = async () => {
+  const startScanner = async (facingMode: 'environment' | 'user' = 'environment') => {
     if (!html5QrCode) return
     try {
       setScannerState('scanning')
       await html5QrCode.start(
-        { facingMode: 'environment' },
+        { facingMode },
         { fps: 10, qrbox: { width: 250, height: 250 } },
         handleScan,
         undefined
@@ -146,9 +146,12 @@ export default function ScannerExitPage() {
             </div>
             <h2 className="text-xl font-display font-bold text-simmam-text-primary mb-2">Ready to Scan</h2>
             <p className="text-simmam-text-muted mb-8">Point camera at the vendor's QR code or upload an image</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="primary" onClick={startScanner} leftIcon={<ScanLine size={18} />}>
-                Start Camera
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
+              <Button size="lg" variant="primary" onClick={() => startScanner('environment')} leftIcon={<ScanLine size={18} />}>
+                Back Camera
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => startScanner('user')} leftIcon={<ScanLine size={18} />}>
+                Front Camera
               </Button>
               <div className="relative">
                 <input 
