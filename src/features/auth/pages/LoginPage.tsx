@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/Button'
 import { useToast } from '@/hooks/useToast'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('simmam@gmail.com')
+  const [password, setPassword] = useState('simmam2k26')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { login } = useAuth()
   const { error } = useToast()
@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-simmam-bg flex items-center justify-center p-4">
+    <div className="min-h-[100dvh] bg-simmam-bg flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

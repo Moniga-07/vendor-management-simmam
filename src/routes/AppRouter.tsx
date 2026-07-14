@@ -18,11 +18,11 @@ const RegisterVendorPage = lazy(() => import('@/features/vendors/pages/RegisterV
 const VendorDetailPage  = lazy(() => import('@/features/vendors/pages/VendorDetailPage'))
 const EntryHistoryPage  = lazy(() => import('@/features/reports/pages/EntryHistoryPage'))
 const ReportsPage       = lazy(() => import('@/features/reports/pages/ReportsPage'))
-const SettingsPage      = lazy(() => import('@/features/settings/pages/SettingsPage'))
+
 
 function PageLoader() {
   return (
-    <div className="flex-1 flex items-center justify-center py-20 min-h-screen bg-simmam-bg">
+    <div className="flex-1 flex items-center justify-center py-20 min-h-[100dvh] bg-simmam-bg">
       <Spinner size="lg" className="text-simmam-gold" />
     </div>
   )
@@ -50,7 +50,7 @@ export function AppRouter() {
             <Route path="vendors/:id/edit" element={<RegisterVendorPage />} />
             <Route path="history" element={<EntryHistoryPage />} />
             <Route path="reports" element={<ReportsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
+
           </Route>
         </Route>
 

@@ -11,7 +11,7 @@ export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-screen bg-simmam-bg overflow-hidden">
+    <div className="flex h-[100dvh] bg-simmam-bg overflow-hidden">
       <Sidebar 
         isOpen={sidebarOpen} 
         onClose={() => setSidebarOpen(false)} 

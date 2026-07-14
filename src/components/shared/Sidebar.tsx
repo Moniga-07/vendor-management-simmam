@@ -5,7 +5,6 @@ import {
   QrCode,
   Users,
   FileBarChart2,
-  Settings,
   Scan,
   X,
   Shield,
@@ -32,7 +31,6 @@ const navItems = [
   { label: 'Vendors',   to: '/vendors',   icon: Users },
   { label: 'Entry Logs', to: '/history',  icon: ArrowRightLeft },
   { label: 'Reports',   to: '/reports',   icon: FileBarChart2 },
-  { label: 'Settings',  to: '/settings',  icon: Settings },
 ]
 
 function SimmamLogo() {
@@ -142,7 +140,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
-      <aside className="hidden lg:flex flex-col w-60 shrink-0 h-screen bg-simmam-bg border-r border-simmam-gold-border sticky top-0">
+      <aside className="hidden lg:flex flex-col w-60 shrink-0 h-[100dvh] bg-simmam-bg border-r border-simmam-gold-border sticky top-0">
         <SidebarContent />
       </aside>
 
@@ -162,7 +160,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 left-0 z-50 h-full w-72 bg-simmam-bg border-r border-simmam-gold-border lg:hidden"
+              className="fixed top-0 left-0 z-50 h-[100dvh] w-72 bg-simmam-bg border-r border-simmam-gold-border lg:hidden"
             >
               <SidebarContent onClose={onClose} />
             </motion.aside>
